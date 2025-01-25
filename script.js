@@ -57,9 +57,25 @@ var swiper = new Swiper(".mySwiper", {
 /*========== dark light mode ==========*/
 let darkModeIcon = document.querySelector("#darkMode-icon");
 
+// Check and apply saved dark mode preference on page load
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("dark-mode") === "enabled") {
+    document.body.classList.add("dark-mode");
+    darkModeIcon.classList.add("bx-sun");
+  }
+});
+
+// Toggle dark mode and save the preference
 darkModeIcon.onclick = () => {
-  darkModeIcon.classList.toggle("bx-sun");
   document.body.classList.toggle("dark-mode");
+  darkModeIcon.classList.toggle("bx-sun");
+
+  // Save the user's preference to localStorage
+  if (document.body.classList.contains("dark-mode")) {
+    localStorage.setItem("dark-mode", "enabled");
+  } else {
+    localStorage.setItem("dark-mode", "disabled");
+  }
 };
 
 /*========== scroll reveal ==========*/
@@ -79,24 +95,24 @@ ScrollReveal().reveal(".home-content h1, .about-img img", { origin: "left" });
 ScrollReveal().reveal(".home-content h3, .home-content p, .about-content", {
   origin: "right",
 });
- (function() {
-    emailjs.init("IBimEsC7_N2EV686v");
-  })();
 
-  document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent form default submission
+/*========== emailjs integration ==========*/
+(function () {
+  emailjs.init("IBimEsC7_N2EV686v");
+})();
 
-    const serviceID = "service_idcalz9";
-    const templateID = "template_qc8nh07";
+document.getElementById("contact-form").addEventListener("submit", function (event) {
+  event.preventDefault(); // Prevent form default submission
 
-    emailjs.sendForm(serviceID, templateID, this)
-      .then(
-        () => alert("Message sent successfully!"),
-        (error) => {
-          alert("Failed to send the message. Please try again.");
-          console.error("Error:", error);
-        }
-      );
-  });
+  const serviceID = "service_idcalz9";
+  const templateID = "template_qc8nh07";
 
-
+  emailjs.sendForm(serviceID, templateID, this)
+    .then(
+      () => alert("Message sent successfully!"),
+      (error) => {
+        alert("Failed to send the message. Please try again.");
+        console.error("Error:", error);
+      }
+    );
+});
