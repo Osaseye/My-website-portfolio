@@ -79,4 +79,24 @@ ScrollReveal().reveal(".home-content h1, .about-img img", { origin: "left" });
 ScrollReveal().reveal(".home-content h3, .home-content p, .about-content", {
   origin: "right",
 });
-emailjs.init("IBimEsC7_N2EV686v");
+ (function() {
+    emailjs.init("IBimEsC7_N2EV686v");
+  })();
+
+  document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form default submission
+
+    const serviceID = "service_idcalz9";
+    const templateID = "template_qc8nh07";
+
+    emailjs.sendForm(serviceID, templateID, this)
+      .then(
+        () => alert("Message sent successfully!"),
+        (error) => {
+          alert("Failed to send the message. Please try again.");
+          console.error("Error:", error);
+        }
+      );
+  });
+
+
